@@ -75,10 +75,11 @@ export async function createCheckoutSession(): Promise<{ sessionId: string; url:
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   });
+  const json = await res.json().catch(() => null);
   if (!res.ok) {
-    throw new Error('Failed to create Stripe Checkout session');
+    const errorMsg = json?.error?.message || 'Failed to create Stripe Checkout session';
+    throw new Error(errorMsg);
   }
-  const json = await res.json();
   return json.data;
 }
 

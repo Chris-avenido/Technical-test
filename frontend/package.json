@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:responsive": "node ../.agents/skills/responsive-checker/scripts/check-responsiveness.mjs",
+    "check:responsive": "node ../.agents/skills/responsive-checker/scripts/check-responsiveness.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",

@@ -1,6 +1,16 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { I18nProvider } from '../i18n/I18nContext';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+  ],
+};
 
 export const metadata: Metadata = {
   title: 'Food Finder - Packaged Food Products & Verified Nutrition',

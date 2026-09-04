@@ -102,15 +102,15 @@ export const NutritionTable: React.FC<NutritionTableProps> = ({ nutriments }) =>
         {rows.map((row, idx) => (
           <div
             key={idx}
-            className={`flex items-center justify-between px-4 py-2.5 text-xs transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-700/30 ${
+            className={`flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 text-xs transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-700/30 gap-2 sm:gap-3 ${
               row.highlight ? 'font-semibold text-zinc-900 dark:text-zinc-100' : 'text-zinc-600 dark:text-zinc-300'
             }`}
           >
-            <span className={`${row.sub ? 'pl-4 text-zinc-500 dark:text-zinc-400' : ''}`}>
+            <span className={`min-w-0 ${row.sub ? 'pl-3 sm:pl-4 text-zinc-500 dark:text-zinc-400' : ''}`}>
               {row.sub && '↳ '}
               {row.label}
             </span>
-            <span className="font-mono">{row.value}</span>
+            <span className="font-mono shrink-0 pl-2 text-right">{row.value}</span>
           </div>
         ))}
       </div>

@@ -13,8 +13,9 @@ This guide walks you through setting up the complete Food Finder application fro
 ---
 
 ## Step 1: Clone or Navigate to the Workspace
-```powershell
-cd "e:\christop\test code"
+```bash
+# Navigate to the project root
+cd Technical-test
 ```
 
 ---
@@ -51,8 +52,8 @@ This spins up a clean MySQL 8 container with:
 ## Step 3: Backend Setup
 
 1. **Navigate to the backend directory**:
-   ```powershell
-   cd "e:\christop\test code\backend"
+   ```bash
+   cd backend
    ```
 
 2. **Install dependencies**:
@@ -101,8 +102,8 @@ This spins up a clean MySQL 8 container with:
 ## Step 4: Frontend Setup
 
 1. **Open a new terminal and navigate to the frontend directory**:
-   ```powershell
-   cd "e:\christop\test code\frontend"
+   ```bash
+   cd frontend
    ```
 
 2. **Install dependencies**:

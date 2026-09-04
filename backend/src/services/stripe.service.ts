@@ -75,8 +75,21 @@ export class StripeService {
     userId: string = ENV.DEMO_USER_ID,
     userEmail: string = ENV.DEMO_USER_EMAIL
   ): Promise<{ sessionId: string; url: string | null }> {
-    // We provide either configured price ID or dynamically configure recurring monthly subscription
-    const lineItem = ENV.STRIPE_MONTHLY_PRICE_ID && !ENV.STRIPE_MONTHLY_PRICE_ID.includes('mock')
+    if (ENV.STRIPE_SECRET_KEY.includes('mockKeyForExamTesting') || ENV.STRIPE_SECRET_KEY.includes('mockKey')) {
+      throw new Error(
+        'Placeholder STRIPE_SECRET_KEY detected in backend/.env. Please replace it with your real Stripe Test Secret Key (starts with sk_test_...) from https://dashboard.stripe.com/test/apikeys'
+      );
+    }
+
+    // We provide either configured real price ID or dynamically configure recurring monthly subscription
+    const hasValidRealPriceId =
+      Boolean(ENV.STRIPE_MONTHLY_PRICE_ID) &&
+      !ENV.STRIPE_MONTHLY_PRICE_ID.includes('mock') &&
+      !ENV.STRIPE_MONTHLY_PRICE_ID.includes('exam') &&
+      !ENV.STRIPE_MONTHLY_PRICE_ID.includes('placeholder') &&
+      ENV.STRIPE_MONTHLY_PRICE_ID.startsWith('price_');
+
+    const lineItem = hasValidRealPriceId
       ? { price: ENV.STRIPE_MONTHLY_PRICE_ID, quantity: 1 }
       : {
           price_data: {

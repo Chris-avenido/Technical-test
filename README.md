@@ -162,10 +162,15 @@ All tests reside under `backend/__tests__/` and are written with **Jest** and **
   - MySQL persistence for user search logs.
   - Case-insensitive search query deduplication.
 
-Run tests:
+### Run Automated Tests:
 ```bash
+# 1. Backend Integration & Unit Tests (Jest):
 cd backend
 npm test
+
+# 2. Frontend Viewport & Responsiveness Audit Suite (Mobile, Tablet, Desktop across EN, NL, DE, FR):
+cd frontend
+npm run test:responsive
 ```
 
 ---

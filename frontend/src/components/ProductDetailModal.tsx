@@ -77,21 +77,21 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     : { bg: 'bg-zinc-200 dark:bg-zinc-700', text: 'text-zinc-700 dark:text-zinc-200' };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/60 backdrop-blur-sm overflow-y-auto animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-8 bg-black/60 backdrop-blur-sm overflow-y-auto animate-fadeIn">
       {/* Modal Container */}
-      <div className="relative w-full max-w-4xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden my-8 max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-4xl bg-white dark:bg-zinc-900 rounded-2xl sm:rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden my-auto sm:my-8 max-h-[92vh] sm:max-h-[90vh] flex flex-col">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-zinc-200 dark:border-zinc-800 gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 truncate max-w-[140px] sm:max-w-xs">
               {detail?.brand || product.brand || t.brand}
             </span>
-            <span className="text-zinc-300 dark:text-zinc-700">•</span>
-            <span className="text-xs font-mono text-zinc-400">#{product.code}</span>
+            <span className="text-zinc-300 dark:text-zinc-700 shrink-0">•</span>
+            <span className="text-xs font-mono text-zinc-400 truncate max-w-[100px] sm:max-w-none">#{product.code}</span>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+            className="p-1.5 sm:p-2 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
             aria-label={t.close}
           >
             <X className="w-5 h-5" />
@@ -99,81 +99,81 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="overflow-y-auto p-6 sm:p-8 space-y-8">
+        <div className="overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
           {/* Top Section: Photo + Core Meta */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
             {/* Image Preview */}
-            <div className="md:col-span-5 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 flex items-center justify-center min-h-[260px]">
+            <div className="md:col-span-5 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl p-4 sm:p-6 border border-zinc-200/80 dark:border-zinc-800 flex items-center justify-center min-h-[200px] sm:min-h-[260px]">
               {product.imageUrl && !imageError ? (
                 <img
                   src={product.imageUrl}
                   alt={product.name}
                   onError={() => setImageError(true)}
-                  className="max-h-64 object-contain rounded-lg"
+                  className="max-h-56 sm:max-h-64 object-contain rounded-lg"
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center text-zinc-400 gap-2">
-                  <Package className="w-16 h-16 stroke-1" />
+                  <Package className="w-14 h-14 sm:w-16 sm:h-16 stroke-1" />
                   <span className="text-xs">Image unavailable</span>
                 </div>
               )}
             </div>
 
             {/* Title & Key Attributes */}
-            <div className="md:col-span-7 space-y-5">
+            <div className="md:col-span-7 space-y-4 sm:space-y-5 min-w-0">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight break-words">
                   {detail?.name || product.name}
                 </h2>
-                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mt-1">
+                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mt-1 truncate">
                   {detail?.brand || product.brand}
                 </p>
               </div>
 
               {/* Badges Bar (Nutri-Score, Eco-Score, NOVA) */}
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {nutriscore && (
                   <div
-                    className={`px-3 py-1 rounded-xl text-xs font-black shadow-sm ${nutriscoreStyle.bg} ${nutriscoreStyle.text}`}
+                    className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-black shadow-sm ${nutriscoreStyle.bg} ${nutriscoreStyle.text}`}
                   >
                     NUTRI-SCORE {nutriscore}
                   </div>
                 )}
                 {detail?.ecoscoreGrade && (
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                    <Leaf className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                    <Leaf className="w-3.5 h-3.5 shrink-0" />
                     <span>ECO-SCORE {detail.ecoscoreGrade}</span>
                   </div>
                 )}
                 {detail?.novaGroup && (
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
-                    <Activity className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                    <Activity className="w-3.5 h-3.5 shrink-0" />
                     <span>NOVA {detail.novaGroup}</span>
                   </div>
                 )}
               </div>
 
               {/* Metadata Grid */}
-              <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
-                <div className="flex items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
-                  <Barcode className="w-4 h-4 text-zinc-400" />
-                  <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2 text-xs">
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800 min-w-0">
+                  <Barcode className="w-4 h-4 text-zinc-400 shrink-0" />
+                  <div className="min-w-0 flex-1">
                     <span className="block text-[10px] uppercase font-bold text-zinc-400">
                       {t.barcode}
                     </span>
-                    <span className="font-mono text-zinc-800 dark:text-zinc-200">
+                    <span className="font-mono text-zinc-800 dark:text-zinc-200 break-all text-xs">
                       {product.code}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
-                  <Scale className="w-4 h-4 text-zinc-400" />
-                  <div>
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800 min-w-0">
+                  <Scale className="w-4 h-4 text-zinc-400 shrink-0" />
+                  <div className="min-w-0 flex-1">
                     <span className="block text-[10px] uppercase font-bold text-zinc-400">
                       {t.quantity}
                     </span>
-                    <span className="font-semibold text-zinc-800 dark:text-zinc-200">
+                    <span className="font-semibold text-zinc-800 dark:text-zinc-200 truncate block">
                       {detail?.quantity || 'N/A'}
                     </span>
                   </div>
@@ -211,7 +211,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 {t.ingredients}
               </h3>
             </div>
-            <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-800 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-800 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 break-words">
               {detail?.ingredientsText ? (
                 <p>{detail.ingredientsText}</p>
               ) : (
@@ -261,10 +261,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 bg-zinc-50 dark:bg-zinc-800/80 border-t border-zinc-200 dark:border-zinc-800 flex justify-end">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-zinc-50 dark:bg-zinc-800/80 border-t border-zinc-200 dark:border-zinc-800 flex justify-end">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 font-semibold text-xs transition-colors cursor-pointer"
+            className="px-4 sm:px-5 py-2 rounded-xl bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 font-semibold text-xs transition-colors cursor-pointer"
           >
             {t.close}
           </button>

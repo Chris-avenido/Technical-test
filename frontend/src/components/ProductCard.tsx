@@ -33,7 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
       className="group flex flex-col bg-white dark:bg-zinc-800/90 rounded-2xl border border-zinc-200/80 dark:border-zinc-700/80 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
     >
       {/* Product Image Thumbnail */}
-      <div className="relative w-full h-48 bg-zinc-100 dark:bg-zinc-900/60 flex items-center justify-center overflow-hidden p-4">
+      <div className="relative w-full h-44 sm:h-48 bg-zinc-100 dark:bg-zinc-900/60 flex items-center justify-center overflow-hidden p-3 sm:p-4">
         {product.imageUrl && !imageError ? (
           <img
             src={product.imageUrl}
@@ -52,7 +52,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         {/* Nutri-Score badge top right */}
         {nutriscore && (
           <div
-            className={`absolute top-3 right-3 px-2.5 py-1 rounded-lg font-black text-xs shadow-md tracking-wider ${nutriscoreStyle.bg} ${nutriscoreStyle.text}`}
+            className={`absolute top-2.5 sm:top-3 right-2.5 sm:right-3 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg font-black text-[10px] sm:text-xs shadow-md tracking-wider ${nutriscoreStyle.bg} ${nutriscoreStyle.text}`}
             title={`Nutri-Score: ${nutriscore}`}
           >
             NUTRI-SCORE {nutriscore}
@@ -61,7 +61,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
       </div>
 
       {/* Product Information */}
-      <div className="flex-1 p-5 flex flex-col justify-between space-y-4">
+      <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between space-y-3 sm:space-y-4">
         <div className="space-y-1.5">
           <p className="text-xs font-semibold tracking-wide uppercase text-emerald-600 dark:text-emerald-400 truncate">
             {product.brand || t.brand}
