@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: #f8fafc;
+    --background: #fbfdfc;
     --foreground: #0f172a;
   }
 
@@ -26,6 +26,21 @@
     overflow-x: hidden;
     max-width: 100vw;
   }
+}
+
+/* Organic Ambient Mint & Sage Background Glow */
+.bg-food-finder-glow {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(167, 243, 208, 0.45), transparent 75%),
+    radial-gradient(circle 380px at 0% 15%, rgba(209, 250, 229, 0.5), transparent 70%),
+    radial-gradient(circle 380px at 100% 18%, rgba(209, 250, 229, 0.4), transparent 70%),
+    #fbfdfc;
+}
+
+.dark .bg-food-finder-glow {
+  background:
+    radial-gradient(ellipse 85% 45% at 50% -5%, rgba(16, 185, 129, 0.15), transparent 70%),
+    #09090b;
 }
 
 @keyframes fadeIn {

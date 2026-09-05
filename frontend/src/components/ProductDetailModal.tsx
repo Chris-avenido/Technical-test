@@ -5,7 +5,6 @@ import { useI18n } from '../i18n/I18nContext';
 import { ProductSummary, ProductDetail } from '../lib/types';
 import { getProductByCode } from '../lib/api';
 import { NutritionTable } from './NutritionTable';
-import { SubscriptionBanner } from './SubscriptionBanner';
 import {
   X,
   Package,
@@ -17,6 +16,7 @@ import {
   Lock,
   Loader2,
   FileText,
+  Sparkles,
 } from 'lucide-react';
 
 interface ProductDetailModalProps {
@@ -249,12 +249,25 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               /* SUBSCRIBED: Full Nutrition Breakdown */
               <NutritionTable nutriments={detail.nutriments} />
             ) : (
-              /* UNSUBSCRIBED: Locked Gate + Upgrade CTA */
-              <div className="space-y-4">
-                <SubscriptionBanner
-                  onSubscribe={onSubscribe}
-                  subscribing={subscribing}
-                />
+              /* UNSUBSCRIBED: Compact Locked Gate + Upgrade CTA */
+              <div className="p-5 sm:p-6 rounded-2xl border border-amber-200/80 dark:border-amber-900/40 bg-[#FFF9F2] dark:bg-amber-950/20 text-center space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF0DC] dark:bg-amber-900/40 text-[#C05621] dark:text-amber-400 text-xs font-bold border border-amber-300/40">
+                  <Lock className="w-3.5 h-3.5 shrink-0" />
+                  <span>{t.lockedNutritionTitle}</span>
+                </div>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 max-w-md mx-auto">
+                  {t.lockedNutritionDesc}
+                </p>
+                <div className="pt-1">
+                  <button
+                    onClick={onSubscribe}
+                    disabled={subscribing}
+                    className="px-5 py-2.5 rounded-xl bg-[#009668] hover:bg-[#008259] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm transition-all inline-flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <Sparkles className="w-4 h-4 shrink-0" />
+                    <span>{subscribing ? t.subscribing : t.subscribeButton}</span>
+                  </button>
+                </div>
               </div>
             )}
           </div>
