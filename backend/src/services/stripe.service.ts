@@ -81,7 +81,6 @@ export class StripeService {
       );
     }
 
-    // We provide either configured real price ID or dynamically configure recurring monthly subscription
     const hasValidRealPriceId =
       Boolean(ENV.STRIPE_MONTHLY_PRICE_ID) &&
       !ENV.STRIPE_MONTHLY_PRICE_ID.includes('mock') &&
@@ -89,35 +88,62 @@ export class StripeService {
       !ENV.STRIPE_MONTHLY_PRICE_ID.includes('placeholder') &&
       ENV.STRIPE_MONTHLY_PRICE_ID.startsWith('price_');
 
-    const lineItem = hasValidRealPriceId
-      ? { price: ENV.STRIPE_MONTHLY_PRICE_ID, quantity: 1 }
-      : {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'Food Finder Pro - Monthly Subscription',
-              description: 'Unlimited access to comprehensive nutritional breakdown, Nutri-Score analysis, and micronutrients.',
-            },
-            unit_amount: 999, // $9.99 / month
-            recurring: {
-              interval: 'month' as const,
-            },
-          },
-          quantity: 1,
-        };
-
-    const session = await stripe.checkout.sessions.create({
+    // Shared session parameters for both checkout paths
+    const commonParams: Omit<Stripe.Checkout.SessionCreateParams, 'line_items'> = {
       mode: 'subscription',
       payment_method_types: ['card'],
       customer_email: userEmail,
       client_reference_id: userId,
-      line_items: [lineItem],
       success_url: `${ENV.CLIENT_URL}/?subscription_status=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${ENV.CLIENT_URL}/?subscription_status=canceled`,
-      metadata: {
-        userId,
+      metadata: { userId },
+    };
+
+    // Inline price_data used as fallback ($9.99/month) when no valid Price ID is configured
+    const inlinePriceItem: Stripe.Checkout.SessionCreateParams.LineItem = {
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: 'Food Finder Pro - Monthly Subscription',
+          description: 'Unlimited access to comprehensive nutritional breakdown, Nutri-Score analysis, and micronutrients.',
+        },
+        unit_amount: 999, // $9.99 / month
+        recurring: { interval: 'month' },
       },
-    });
+      quantity: 1,
+    };
+
+    let session: Stripe.Checkout.Session;
+
+    if (hasValidRealPriceId) {
+      try {
+        // Attempt to use the configured Stripe Price ID
+        session = await stripe.checkout.sessions.create({
+          ...commonParams,
+          line_items: [{ price: ENV.STRIPE_MONTHLY_PRICE_ID, quantity: 1 }],
+        });
+      } catch (priceErr: any) {
+        // Auto-fallback: if the configured Price ID doesn't exist in this Stripe account, use inline price_data
+        if (priceErr?.type === 'StripeInvalidRequestError' || priceErr?.code === 'resource_missing') {
+          console.warn(
+            `[Stripe] Price ID "${ENV.STRIPE_MONTHLY_PRICE_ID}" not found in this Stripe account. ` +
+            `Falling back to inline price_data ($9.99/mo)...`
+          );
+          session = await stripe.checkout.sessions.create({
+            ...commonParams,
+            line_items: [inlinePriceItem],
+          });
+        } else {
+          throw priceErr;
+        }
+      }
+    } else {
+      // No valid Price ID configured — use dynamic inline price_data directly
+      session = await stripe.checkout.sessions.create({
+        ...commonParams,
+        line_items: [inlinePriceItem],
+      });
+    }
 
     return {
       sessionId: session.id,

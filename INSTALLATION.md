@@ -10,6 +10,14 @@ This guide walks you through setting up the complete Food Finder application fro
 - **MySQL**: 8.0+ (either via Docker or local MySQL/XAMPP)
 - **Git**: Installed
 
+> [!NOTE]
+> **Windows PowerShell Users**:
+> If you encounter `File ... npm.ps1 cannot be loaded because running scripts is disabled on this system (PSSecurityException)`, PowerShell is blocking `.ps1` execution. Run this command once in your terminal:
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+> ```
+> Alternatively, execute using Command Prompt (`cmd.exe`) or Git Bash.
+
 ---
 
 ## Step 1: Clone or Navigate to the Workspace

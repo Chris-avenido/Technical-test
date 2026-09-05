@@ -23,6 +23,13 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  // Keep <html lang="..."> in sync with the active language for correct semantics & accessibility
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang;
+    }
+  }, [lang]);
+
   const setLang = (newLang: SupportedLanguage) => {
     setLangState(newLang);
     localStorage.setItem('food_finder_lang', newLang);

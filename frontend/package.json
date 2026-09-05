@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "test:responsive": "node ../.agents/skills/responsive-checker/scripts/check-responsiveness.mjs",
     "check:responsive": "node ../.agents/skills/responsive-checker/scripts/check-responsiveness.mjs"
   },
@@ -17,10 +19,16 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "autoprefixer": "^10.4.20",
+    "jest": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.1",
     "postcss": "^8.5.2",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"

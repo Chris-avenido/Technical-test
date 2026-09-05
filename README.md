@@ -51,6 +51,8 @@ A full-stack application for searching packaged food products via **Open Food Fa
 
 See the detailed [INSTALLATION.md](./INSTALLATION.md) for full step-by-step guidance.
 
+> **Windows Note**: If PowerShell blocks running scripts (`PSSecurityException`), run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force` once in PowerShell.
+
 ### 1. Start MySQL
 ```bash
 # Using Docker (recommended)
@@ -137,7 +139,24 @@ The application supports **English (`en`)**, **Dutch (`nl`)**, **German (`de`)**
    - Handles `checkout.session.completed` (activates subscription in MySQL), `customer.subscription.updated`, and `customer.subscription.deleted`.
 
 3. **Evaluation Shortcut**:
-   - For exam grading convenience, you can toggle subscription status with one click via the UI header banner or `POST /api/stripe/toggle-demo-status`.
+   - For exam grading convenience, you can toggle subscription status with one click via the UI **Demo Control Panel** or `POST /api/stripe/toggle-demo-status`.
+   - This bypasses the need for a real Stripe webhook and is the **recommended path for evaluation**.
+
+4. **Local Webhook Testing (Stripe CLI)**:
+   - Install the [Stripe CLI](https://stripe.com/docs/stripe-cli) and log in: `stripe login`
+   - Forward live webhook events to your local backend:
+     ```bash
+     stripe listen --forward-to http://localhost:4000/api/stripe/webhook
+     ```
+   - Copy the **webhook signing secret** printed in the terminal (starts with `whsec_live_`) into `backend/.env`:
+     ```env
+     STRIPE_WEBHOOK_SECRET=whsec_live_your_actual_webhook_secret
+     ```
+   - Trigger a test `checkout.session.completed` event:
+     ```bash
+     stripe trigger checkout.session.completed
+     ```
+   - The backend will verify the signature, activate the demo user's subscription in MySQL, and the UI will reflect `PRO SUBSCRIBER` status.
 
 ---
 
